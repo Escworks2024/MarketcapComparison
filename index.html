@@ -163,15 +163,15 @@
                 const selectCrypto1 = document.getElementById('crypto1');
                 const selectCrypto2 = document.getElementById('crypto2');
 
-                cryptos.forEach(crypto => {
+                cryptos.forEach((crypto, index) => {
                     const option1 = document.createElement('option');
                     option1.value = crypto.id;
-                    option1.text = `${crypto.name} (Market Cap: $${crypto.market_cap.toLocaleString()})`;
+                    option1.text = `${index + 1}. ${crypto.name} (Market Cap: $${crypto.market_cap.toLocaleString()})`;
                     selectCrypto1.add(option1);
 
                     const option2 = document.createElement('option');
                     option2.value = crypto.id;
-                    option2.text = `${crypto.name} (Market Cap: $${crypto.market_cap.toLocaleString()})`;
+                    option2.text = `${index + 1}. ${crypto.name} (Market Cap: $${crypto.market_cap.toLocaleString()})`;
                     selectCrypto2.add(option2);
                 });
 
