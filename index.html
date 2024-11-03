@@ -143,13 +143,14 @@
                 const price1 = crypto1.market_data.current_price.usd;
                 const multiplier = marketCap2 / marketCap1;
                 const newPrice = price1 * multiplier;
-                const percentageIncrease = ((multiplier - 1) * 100).toFixed(2);
+                const percentageChange = ((multiplier - 1) * 100).toFixed(2);
+                const increaseOrDecrease = multiplier >= 1 ? 'incremento' : 'diminuzione';
 
                 document.getElementById('result').innerHTML = `
                     <p><strong>${crypto1.name}</strong> ha una market cap di: $${marketCap1.toLocaleString()}.</p>
                     <p><strong>${crypto2.name}</strong> ha una market cap di: $${marketCap2.toLocaleString()}.</p>
                     <p>Se <strong>${crypto1.name}</strong> avesse la market cap di <strong>${crypto2.name}</strong>, il suo prezzo sarebbe di: $${newPrice.toFixed(2)}.</p>
-                    <p>Questo rappresenta un incremento del <strong>${percentageIncrease}%</strong> rispetto al prezzo attuale.</p>
+                    <p>Questo rappresenta una <strong>${increaseOrDecrease}</strong> del <strong>${Math.abs(percentageChange)}%</strong> rispetto al prezzo attuale.</p>
                 `;
             } catch (error) {
                 console.error('Errore durante il confronto delle market cap:', error);
