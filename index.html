@@ -227,6 +227,8 @@
 
         loadCryptos();
 
+        let comparisonChart; // Variabile per il grafico
+
         // Funzione per confrontare le market cap delle criptovalute selezionate
         async function compareMarketCap() {
             const crypto1Id = document.getElementById('crypto1').value;
@@ -264,7 +266,10 @@
 
                 // Grafico del confronto
                 const ctx = document.getElementById('comparisonChart').getContext('2d');
-                new Chart(ctx, {
+                if (comparisonChart) {
+                    comparisonChart.destroy(); // Distrugge il grafico precedente se esiste
+                }
+                comparisonChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: [`${crypto1.name}`, `${crypto2.name}`],
