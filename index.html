@@ -228,15 +228,4 @@
                 const increaseOrDecrease = multiplier >= 1 ? 'incremento' : 'diminuzione';
 
                 document.getElementById('result').innerHTML = `
-                    <p><strong>${crypto1.name}</strong> ha una market cap di: $${marketCap1.toLocaleString()} e un valore di: $${price1.toFixed(2)} per unità.</p>
-                    <p><strong>${crypto2.name}</strong> ha una market cap di: $${marketCap2.toLocaleString()} e un valore di: $${price2.toFixed(2)} per unità.</p>
-                    <p>Se <strong>${crypto1.name}</strong> avesse la market cap di <strong>${crypto2.name}</strong>, il suo prezzo sarebbe di: $${newPrice.toFixed(2)}.</p>
-                    <p>Questo rappresenta una <strong>${increaseOrDecrease}</strong> del <strong>${Math.abs(percentageChange)}%</strong> rispetto al prezzo attuale.</p>
-                `;
-            } catch (error) {
-                console.error('Errore durante il confronto delle market cap:', error);
-            }
-        }
-    </script>
-</body>
-</html>
+                    <p><strong>${crypto1.name}</strong> ha una market cap di: $${marketCap1.toLocaleString()} e un valore di: $${price1
