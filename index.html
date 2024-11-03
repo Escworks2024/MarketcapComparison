@@ -11,76 +11,111 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background-color: #f5f5f7;
             font-family: 'Roboto', sans-serif;
-            color: #ffffff;
+            color: #1d1d1f;
+            padding: 0;
+            margin: 0;
+        }
+        header {
+            background-color: #000;
             padding: 20px;
+            text-align: center;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .box {
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
-        h1.title {
+        header h1 {
             color: #ffffff;
             font-weight: 700;
+            margin: 0;
+            font-size: 2rem;
         }
-        .subtitle {
-            color: #d1d1d1;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .box {
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1.title {
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+        }
+        p.subtitle {
+            color: #6e6e73;
+            font-size: 1.2rem;
         }
         .button {
-            background-color: #ff9800;
-            color: white;
-            border-radius: 10px;
+            background-color: #0071e3;
+            color: #ffffff;
+            border-radius: 50px;
             font-weight: bold;
             transition: all 0.3s ease;
+            padding: 15px 40px;
+            font-size: 1rem;
         }
         .button:hover {
-            background-color: #e68900;
+            background-color: #005bb5;
             transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
         input.input {
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-        }
-        select.input {
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
+            border: 1px solid #d2d2d7;
+            border-radius: 50px;
+            padding: 15px;
+            margin-bottom: 20px;
             width: 100%;
         }
+        select.input {
+            border: 1px solid #d2d2d7;
+            border-radius: 50px;
+            padding: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .field {
+            margin-bottom: 30px;
+        }
         #result {
-            margin-top: 30px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 40px;
+            background: #f5f5f7;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         #result p {
+            color: #1d1d1f;
+            font-size: 1.1rem;
+        }
+        footer {
+            background-color: #000;
             color: #ffffff;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+        footer img {
+            width: 100px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Crypto Market Cap Comparisons</h1>
+    </header>
     <div class="container">
         <div class="box">
-            <h1 class="title has-text-centered">Confronto Market Cap Criptovalute</h1>
-            <p class="subtitle has-text-centered">Seleziona due criptovalute per confrontare la loro capitalizzazione di mercato e vedere come cambierebbe il prezzo.</p>
+            <h1 class="title">Confronto Market Cap Criptovalute</h1>
+            <p class="subtitle">Seleziona due criptovalute per confrontare la loro capitalizzazione di mercato e vedere come cambierebbe il prezzo.</p>
             <div class="field">
                 <label class="label" for="crypto1">Seleziona la prima criptovaluta:</label>
-                <div class="control has-icons-left">
+                <div class="control">
                     <input class="input" type="text" id="searchCrypto1" placeholder="Cerca criptovaluta...">
-                    <span class="icon is-left">
-                        <i class="fas fa-search"></i>
-                    </span>
                 </div>
                 <div class="control">
                     <select class="input" id="crypto1"></select>
@@ -89,11 +124,8 @@
 
             <div class="field">
                 <label class="label" for="crypto2">Seleziona la seconda criptovaluta:</label>
-                <div class="control has-icons-left">
+                <div class="control">
                     <input class="input" type="text" id="searchCrypto2" placeholder="Cerca criptovaluta...">
-                    <span class="icon is-left">
-                        <i class="fas fa-search"></i>
-                    </span>
                 </div>
                 <div class="control">
                     <select class="input" id="crypto2"></select>
@@ -102,13 +134,19 @@
 
             <div class="field is-grouped is-grouped-centered">
                 <div class="control">
-                    <button class="button is-primary" onclick="compareMarketCap()">Confronta Market Cap</button>
+                    <button class="button" onclick="compareMarketCap()">Confronta Market Cap</button>
                 </div>
             </div>
 
             <div id="result" class="content"></div>
         </div>
     </div>
+
+    <footer>
+        <p>Supporta il nostro lavoro</p>
+        <p>DONATE SOL</p>
+        <img src="https://i.imgur.com/960npj0.png" alt="Donate SOL">
+    </footer>
 
     <script>
         // Funzione per caricare le criptovalute disponibili nella lista in ordine di market cap
