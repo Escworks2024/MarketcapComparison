@@ -4,21 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confronto Market Cap Crypto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .box {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #363636;
+        }
+        .button {
+            background-color: #3273dc;
+            color: white;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Confronto Market Cap Criptovalute</h1>
-    <label for="crypto1">Seleziona la prima criptovaluta:</label>
-    <input type="text" id="searchCrypto1" placeholder="Cerca criptovaluta...">
-    <select id="crypto1"></select>
+    <div class="container">
+        <div class="box">
+            <h1 class="title has-text-centered">Confronto Market Cap Criptovalute</h1>
+            <p class="subtitle has-text-centered">Seleziona due criptovalute per confrontare la loro capitalizzazione di mercato e vedere come cambierebbe il prezzo.</p>
+            <div class="field">
+                <label class="label" for="crypto1">Seleziona la prima criptovaluta:</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="text" id="searchCrypto1" placeholder="Cerca criptovaluta...">
+                    <span class="icon is-left">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+                <div class="control">
+                    <select class="input" id="crypto1"></select>
+                </div>
+            </div>
 
-    <label for="crypto2">Seleziona la seconda criptovaluta:</label>
-    <input type="text" id="searchCrypto2" placeholder="Cerca criptovaluta...">
-    <select id="crypto2"></select>
+            <div class="field">
+                <label class="label" for="crypto2">Seleziona la seconda criptovaluta:</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="text" id="searchCrypto2" placeholder="Cerca criptovaluta...">
+                    <span class="icon is-left">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+                <div class="control">
+                    <select class="input" id="crypto2"></select>
+                </div>
+            </div>
 
-    <button onclick="compareMarketCap()">Confronta Market Cap</button>
+            <div class="field is-grouped is-grouped-centered">
+                <div class="control">
+                    <button class="button is-primary" onclick="compareMarketCap()">Confronta Market Cap</button>
+                </div>
+            </div>
 
-    <h2>Risultato:</h2>
-    <div id="result"></div>
+            <div id="result" class="content"></div>
+        </div>
+    </div>
 
     <script>
         // Funzione per caricare le criptovalute disponibili nella lista in ordine di market cap
