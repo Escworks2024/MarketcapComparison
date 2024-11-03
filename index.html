@@ -173,7 +173,9 @@
     <footer>
         <p>Supporta il nostro lavoro</p>
         <p>DONATE SOL</p>
-        <img src="https://i.imgur.com/960npj0.png" alt="Donate SOL">
+        <p id="viewCount">Loading view count...</p>
+
+     <img src="https://i.imgur.com/960npj0.png" alt="Donate SOL">
     </footer>
 
     <script>
@@ -185,6 +187,20 @@
                 const cryptos = await response.json();
                 const selectCrypto1 = document.getElementById('crypto1');
                 const selectCrypto2 = document.getElementById('crypto2');
+// Retrieve view count from localStorage or initialize it
+let viewCount = localStorage.getItem('viewCount');
+if (!viewCount) {
+    viewCount = 0;
+}
+
+// Increment the view count
+viewCount++;
+
+// Store the updated view count back to localStorage
+localStorage.setItem('viewCount', viewCount);
+
+// Display the view count in the footer
+document.getElementById('viewCount').innerText = `This site has been viewed ${viewCount} times.`;
 
                 selectCrypto1.innerHTML = '';
                 selectCrypto2.innerHTML = '';
