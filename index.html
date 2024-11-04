@@ -250,6 +250,23 @@
                 option2.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
                 selectCrypto2.add(option2);
             });
+
+            // Aggiunta delle funzionalità di ricerca intelligente
+            document.getElementById('searchCrypto1').addEventListener('input', function () {
+                filterOptions('searchCrypto1', 'crypto1');
+            });
+            document.getElementById('searchCrypto2').addEventListener('input', function () {
+                filterOptions('searchCrypto2', 'crypto2');
+            });
+        }
+
+        function filterOptions(searchInputId, selectId) {
+            const searchInput = document.getElementById(searchInputId).value.toLowerCase();
+            const select = document.getElementById(selectId);
+            for (let i = 0; i < select.options.length; i++) {
+                const optionText = select.options[i].text.toLowerCase();
+                select.options[i].style.display = optionText.includes(searchInput) ? '' : 'none';
+            }
         }
 
         // Funzione per confrontare le market cap delle criptovalute selezionate
