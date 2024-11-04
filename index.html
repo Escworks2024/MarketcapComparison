@@ -116,6 +116,11 @@
             background-color: #121212;
             color: #ffffff;
         }
+        #loading {
+            display: none;
+            font-size: 1.2rem;
+            color: #0071e3;
+        }
     </style>
 </head>
 <body>
@@ -167,6 +172,7 @@
             <div id="chartContainer">
                 <canvas id="comparisonChart"></canvas>
             </div>
+            <div id="loading">Caricamento in corso...</div>
         </div>
     </div>
 
@@ -179,69 +185,77 @@
     </footer>
 
     <script>
-        // Funzione per caricare le criptovalute disponibili nella lista in ordine di market cap
-       async function loadCryptos() {
-    try {
-        let allCryptos = [];
-        const requests = [];
+        async function loadCryptos() {
+            let cachedCryptos = localStorage.getItem('allCryptos');
+            if (cachedCryptos) {
+                cachedCryptos = JSON.parse(cachedCryptos);
+                renderCryptos(cachedCryptos);
+                return;
+            }
 
-        // Prepariamo tutte le richieste per le 20 pagine, con 250 criptovalute per pagina
-        for (let page = 1; page <= 20; page++) {
-            requests.push(fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=${page}`));
-        }
+            document.getElementById('loading').style.display = 'block';
+            try {
+                let allCryptos = [];
+                const requests = [];
 
-        // Eseguiamo tutte le richieste in parallelo
-        const responses = await Promise.all(requests);
+                // Prepariamo tutte le richieste per le 20 pagine, con 250 criptovalute per pagina
+                for (let page = 1; page <= 20; page++) {
+                    requests.push(fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=${page}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Errore nella pagina ${page}: ${response.statusText}`);
+                            }
+                            return response.json();
+                        })
+                        .catch(error => {
+                            console.error(`Errore durante il caricamento della pagina ${page}: ${error}`);
+                            return []; // Restituisce un array vuoto in caso di errore, per continuare
+                        }));
+                }
 
-        // Processiamo tutte le risposte
-        for (const response of responses) {
-            const cryptos = await response.json();
-            allCryptos = allCryptos.concat(cryptos);
-        }
+                // Eseguiamo tutte le richieste in parallelo
+                const results = await Promise.all(requests);
 
-        const selectCrypto1 = document.getElementById('crypto1');
-        const selectCrypto2 = document.getElementById('crypto2');
-        const cryptoSelect = document.getElementById('cryptoSelect');
+                // Combina tutte le criptovalute
+                results.forEach(cryptos => {
+                    allCryptos = allCryptos.concat(cryptos);
+                });
 
-        selectCrypto1.innerHTML = '';
-        selectCrypto2.innerHTML = '';
-        cryptoSelect.innerHTML = '<option value="">Seleziona una criptovaluta</option>';
-
-        allCryptos.forEach((crypto, index) => {
-            const option1 = document.createElement('option');
-            option1.value = crypto.id;
-            option1.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
-            selectCrypto1.add(option1);
-
-            const option2 = document.createElement('option');
-            option2.value = crypto.id;
-            option2.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
-            selectCrypto2.add(option2);
-
-            const option3 = document.createElement('option');
-            option3.value = crypto.id;
-            option3.innerHTML = `${crypto.name}`;
-            cryptoSelect.add(option3);
-        });
-    } catch (error) {
-        console.error('Errore durante il caricamento delle criptovalute:', error);
-    }
-}
-
-
-        // Funzione per filtrare le opzioni della select in base all'input di ricerca
-        function filterOptions(searchInputId, selectId) {
-            const searchInput = document.getElementById(searchInputId).value.toLowerCase();
-            const select = document.getElementById(selectId);
-            for (let i = 0; i < select.options.length; i++) {
-                const optionText = select.options[i].text.toLowerCase();
-                select.options[i].style.display = optionText.includes(searchInput) ? '' : 'none';
+                localStorage.setItem('allCryptos', JSON.stringify(allCryptos));
+                renderCryptos(allCryptos);
+            } catch (error) {
+                console.error('Errore durante il caricamento delle criptovalute:', error);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
             }
         }
 
-        loadCryptos();
+        function renderCryptos(allCryptos) {
+            const selectCrypto1 = document.getElementById('crypto1');
+            const selectCrypto2 = document.getElementById('crypto2');
+            const cryptoSelect = document.getElementById('cryptoSelect');
 
-        let comparisonChart; // Variabile per il grafico
+            selectCrypto1.innerHTML = '';
+            selectCrypto2.innerHTML = '';
+            cryptoSelect.innerHTML = '<option value="">Seleziona una criptovaluta</option>';
+
+            allCryptos.forEach((crypto, index) => {
+                const option1 = document.createElement('option');
+                option1.value = crypto.id;
+                option1.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
+                selectCrypto1.add(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = crypto.id;
+                option2.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
+                selectCrypto2.add(option2);
+
+                const option3 = document.createElement('option');
+                option3.value = crypto.id;
+                option3.innerHTML = `${crypto.name}`;
+                cryptoSelect.add(option3);
+            });
+        }
 
         // Funzione per confrontare le market cap delle criptovalute selezionate
         async function compareMarketCap() {
@@ -311,6 +325,9 @@
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
         }
+
+        // Carica le criptovalute al caricamento della pagina
+        loadCryptos();
     </script>
 </body>
 </html>
