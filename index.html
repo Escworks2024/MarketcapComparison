@@ -145,7 +145,7 @@
             <div class="field">
                 <label class="label" for="crypto1">Seleziona la prima criptovaluta:</label>
                 <div class="control">
-                    <input class="input" type="text" id="searchCrypto1" placeholder="Cerca criptovaluta...">
+                    <input class="input" type="text" id="searchCrypto1" placeholder="Cerca criptovaluta..." oninput="filterOptions('searchCrypto1', 'crypto1')">
                 </div>
                 <div class="control">
                     <select class="input" id="crypto1"></select>
@@ -155,7 +155,7 @@
             <div class="field">
                 <label class="label" for="crypto2">Seleziona la seconda criptovaluta:</label>
                 <div class="control">
-                    <input class="input" type="text" id="searchCrypto2" placeholder="Cerca criptovaluta...">
+                    <input class="input" type="text" id="searchCrypto2" placeholder="Cerca criptovaluta..." oninput="filterOptions('searchCrypto2', 'crypto2')">
                 </div>
                 <div class="control">
                     <select class="input" id="crypto2"></select>
@@ -249,14 +249,6 @@
                 option2.value = crypto.id;
                 option2.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
                 selectCrypto2.add(option2);
-            });
-
-            // Aggiunta delle funzionalità di ricerca intelligente
-            document.getElementById('searchCrypto1').addEventListener('input', function () {
-                filterOptions('searchCrypto1', 'crypto1');
-            });
-            document.getElementById('searchCrypto2').addEventListener('input', function () {
-                filterOptions('searchCrypto2', 'crypto2');
             });
         }
 
