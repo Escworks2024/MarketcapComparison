@@ -255,14 +255,22 @@
         function filterOptions(searchInputId, selectId) {
             const searchInput = document.getElementById(searchInputId).value.toLowerCase();
             const select = document.getElementById(selectId);
-            const allOptions = Array.from(select.options);
+            const allOptions = Array.from(document.getElementById(selectId).options);
             select.innerHTML = ''; // Pulisce il menu a tendina
 
-            allOptions.forEach(option => {
-                if (option.text.toLowerCase().includes(searchInput)) {
-                    select.appendChild(option); // Aggiunge solo le opzioni corrispondenti alla ricerca
-                }
-            });
+            if (searchInput === '') {
+                // Se il campo di ricerca è vuoto, ripristina tutte le opzioni
+                allOptions.forEach(option => {
+                    select.appendChild(option);
+                });
+            } else {
+                // Filtra e aggiungi solo le opzioni corrispondenti
+                allOptions.forEach(option => {
+                    if (option.text.toLowerCase().includes(searchInput)) {
+                        select.appendChild(option);
+                    }
+                });
+            }
         }
 
         // Funzione per confrontare le market cap delle criptovalute selezionate
