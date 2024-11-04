@@ -186,18 +186,18 @@
 
     <script>
         let comparisonChart; // Variabile globale per il grafico
+        let allCryptos = []; // Mantiene tutte le criptovalute in memoria
 
         async function loadCryptos() {
             let cachedCryptos = localStorage.getItem('allCryptos');
             if (cachedCryptos) {
-                cachedCryptos = JSON.parse(cachedCryptos);
-                renderCryptos(cachedCryptos);
+                allCryptos = JSON.parse(cachedCryptos);
+                renderCryptos(allCryptos);
                 return;
             }
 
             document.getElementById('loading').style.display = 'block';
             try {
-                let allCryptos = [];
                 const requests = [];
 
                 // Prepariamo tutte le richieste per le 20 pagine, con 250 criptovalute per pagina
@@ -232,14 +232,14 @@
             }
         }
 
-        function renderCryptos(allCryptos) {
+        function renderCryptos(cryptos) {
             const selectCrypto1 = document.getElementById('crypto1');
             const selectCrypto2 = document.getElementById('crypto2');
 
             selectCrypto1.innerHTML = '';
             selectCrypto2.innerHTML = '';
 
-            allCryptos.forEach((crypto, index) => {
+            cryptos.forEach((crypto, index) => {
                 const option1 = document.createElement('option');
                 option1.value = crypto.id;
                 option1.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
@@ -255,20 +255,19 @@
         function filterOptions(searchInputId, selectId) {
             const searchInput = document.getElementById(searchInputId).value.toLowerCase();
             const select = document.getElementById(selectId);
-            const allOptions = Array.from(document.getElementById(selectId).options);
             select.innerHTML = ''; // Pulisce il menu a tendina
 
-            if (searchInput === '') {
-                // Se il campo di ricerca è vuoto, ripristina tutte le opzioni
-                allOptions.forEach(option => {
-                    select.appendChild(option);
-                });
+            const filteredOptions = allCryptos.filter(crypto => crypto.name.toLowerCase().includes(searchInput));
+
+            if (filteredOptions.length === 0) {
+                // Se non ci sono risultati, mostra tutte le opzioni
+                renderCryptos(allCryptos);
             } else {
-                // Filtra e aggiungi solo le opzioni corrispondenti
-                allOptions.forEach(option => {
-                    if (option.text.toLowerCase().includes(searchInput)) {
-                        select.appendChild(option);
-                    }
+                filteredOptions.forEach((crypto, index) => {
+                    const option = document.createElement('option');
+                    option.value = crypto.id;
+                    option.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
+                    select.appendChild(option);
                 });
             }
         }
@@ -325,6 +324,7 @@
                     },
                     options: {
                         responsive: true,
+
                         scales: {
                             y: {
                                 beginAtZero: true
