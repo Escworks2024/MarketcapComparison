@@ -185,6 +185,8 @@
     </footer>
 
     <script>
+        let comparisonChart; // Variabile globale per il grafico
+
         async function loadCryptos() {
             let cachedCryptos = localStorage.getItem('allCryptos');
             if (cachedCryptos) {
