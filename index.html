@@ -233,11 +233,9 @@
         function renderCryptos(allCryptos) {
             const selectCrypto1 = document.getElementById('crypto1');
             const selectCrypto2 = document.getElementById('crypto2');
-            const cryptoSelect = document.getElementById('cryptoSelect');
 
             selectCrypto1.innerHTML = '';
             selectCrypto2.innerHTML = '';
-            cryptoSelect.innerHTML = '<option value="">Seleziona una criptovaluta</option>';
 
             allCryptos.forEach((crypto, index) => {
                 const option1 = document.createElement('option');
@@ -249,11 +247,6 @@
                 option2.value = crypto.id;
                 option2.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
                 selectCrypto2.add(option2);
-
-                const option3 = document.createElement('option');
-                option3.value = crypto.id;
-                option3.innerHTML = `${crypto.name}`;
-                cryptoSelect.add(option3);
             });
         }
 
