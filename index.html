@@ -180,40 +180,44 @@
     </footer>
 
     <script>
-   async function loadCryptos() {
-    try {
-        const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc`);
-        const cryptos = await response.json();
-        const selectCrypto1 = document.getElementById('crypto1');
-        const selectCrypto2 = document.getElementById('crypto2');
-        const cryptoSelect = document.getElementById('cryptoSelect');
-
-        selectCrypto1.innerHTML = '';
-        selectCrypto2.innerHTML = '';
-        cryptoSelect.innerHTML = '<option value="">Seleziona una criptovaluta</option>';
-
-        cryptos.forEach((crypto, index) => {
-            const option1 = document.createElement('option');
-            option1.value = crypto.id;
-            option1.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
-            selectCrypto1.add(option1);
-
-            const option2 = document.createElement('option');
-            option2.value = crypto.id;
-            option2.innerHTML = `${index + 1}. ${crypto.name} (Market Cap: USD ${crypto.market_cap.toLocaleString()})`;
-            selectCrypto2.add(option2);
-
-            const option3 = document.createElement('option');
-            option3.value = crypto.id;
-            option3.innerHTML = `${crypto.name}`;
-            cryptoSelect.add(option3);
-        });
-    } catch (error) {
-        console.error('Errore durante il caricamento delle criptovalute:', error);
-    }
-}
+        // Funzione per caricare le criptovalute disponibili nella lista in ordine di market cap
+        async function loadCryptos() {
+            try {
+                const currency = document.getElementById('currency').value;
+                const response = await fetch(https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc);
+                const cryptos = await response.json();
+                const selectCrypto1 = document.getElementById('crypto1');
+                const selectCrypto2 = document.getElementById('crypto2');
 
 
+                selectCrypto1.innerHTML = '';
+                selectCrypto2.innerHTML = '';
+
+                cryptos.forEach((crypto, index) => {
+                    const option1 = document.createElement('option');
+                    option1.value = crypto.id;
+                    option1.innerHTML = ${index + 1}. ${crypto.name} (Market Cap: ${currency.toUpperCase()} ${crypto.market_cap.toLocaleString()});
+                    selectCrypto1.add(option1);
+
+                    const option2 = document.createElement('option');
+                    option2.value = crypto.id;
+                    option2.innerHTML = ${index + 1}. ${crypto.name} (Market Cap: ${currency.toUpperCase()} ${crypto.market_cap.toLocaleString()});
+                    selectCrypto2.add(option2);
+                });
+
+                // Aggiunta di funzionalità di ricerca intelligente
+                document.getElementById('searchCrypto1').addEventListener('input', function() {
+                    filterOptions('searchCrypto1', 'crypto1');
+                });
+
+                document.getElementById('searchCrypto2').addEventListener('input', function() {
+                    filterOptions('searchCrypto2', 'crypto2');
+                });
+
+            } catch (error) {
+                console.error('Errore durante il caricamento delle criptovalute:', error);
+            }
+        }
 
         // Funzione per filtrare le opzioni della select in base all'input di ricerca
         function filterOptions(searchInputId, selectId) {
@@ -240,8 +244,8 @@
             }
 
             try {
-                const response1 = await fetch(`https://api.coingecko.com/api/v3/coins/${crypto1Id}`);
-                const response2 = await fetch(`https://api.coingecko.com/api/v3/coins/${crypto2Id}`);
+                const response1 = await fetch(https://api.coingecko.com/api/v3/coins/${crypto1Id});
+                const response2 = await fetch(https://api.coingecko.com/api/v3/coins/${crypto2Id});
                 const crypto1 = await response1.json();
                 const crypto2 = await response2.json();
 
@@ -255,12 +259,12 @@
                 const percentageChange = ((multiplier - 1) * 100).toFixed(2);
                 const increaseOrDecrease = multiplier >= 1 ? 'incremento' : 'diminuzione';
 
-                document.getElementById('result').innerHTML = `
+                document.getElementById('result').innerHTML = 
                     <p><strong>${crypto1.name}</strong> ha una market cap di: $${marketCap1.toLocaleString()} e un valore di: $${price1.toFixed(2)}</p>
                     <p><strong>${crypto2.name}</strong> ha una market cap di: $${marketCap2.toLocaleString()} e un valore di: $${price2.toFixed(2)}</p>
                     <p>Se <strong>${crypto1.name}</strong> avesse la market cap di <strong>${crypto2.name}</strong>, il suo prezzo sarebbe di: $${newPrice.toFixed(2)}.</p>
                     <p>Questo rappresenta una <strong>${increaseOrDecrease}</strong> del <strong>${Math.abs(percentageChange)}%</strong> rispetto al prezzo attuale.</p>
-                `;
+                ;
 
                 document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
 
@@ -272,7 +276,7 @@
                 comparisonChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: [`${crypto1.name}`, `${crypto2.name}`],
+                        labels: [${crypto1.name}, ${crypto2.name}],
                         datasets: [{
                             label: 'Market Cap in USD',
                             data: [marketCap1, marketCap2],
