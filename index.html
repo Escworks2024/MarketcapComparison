@@ -366,11 +366,11 @@
     const trendingContainer = document.getElementById('trendingContainer');
     trendingContainer.innerHTML = '<p>Caricamento delle criptovalute di tendenza...</p>';
 
-    // Oggetto per "The Balkan Dwarf"
+    // Oggetto per "The Balkan Dwarf" con prezzo USD statico (aggiornalo se necessario)
     const balkanDwarf = {
         id: 'the-balkan-dwarf',
         name: 'The Balkan Dwarf',
-        price_btc: 0.00001234,  // Sostituisci con il prezzo attuale, se disponibile
+        price_usd: 0.25,  // Sostituisci con il prezzo attuale in USD, se disponibile
         small: 'https://assets.coingecko.com/coins/images/25123/small/the_balkan_dwarf_logo.png'  // Sostituisci con l'URL dell'immagine
     };
 
@@ -380,17 +380,26 @@
 
         trendingContainer.innerHTML = ''; // Svuota il contenuto prima di inserire i nuovi dati
 
-        // Aggiungi The Balkan Dwarf come primo elemento
-        const allTrendingCoins = [balkanDwarf, ...data.coins.slice(0, 5).map(coin => coin.item)];
+        // Prendi solo i primi 5 risultati di tendenza e aggiungi "The Balkan Dwarf" come primo elemento
+        const trendingCoins = [balkanDwarf, ...data.coins.slice(0, 5).map(coin => coin.item)];
 
-        allTrendingCoins.forEach(crypto => {
+        // Recupera i prezzi in USD per tutte le criptovalute tranne The Balkan Dwarf
+        for (let i = 1; i < trendingCoins.length; i++) {
+            const coinId = trendingCoins[i].id;
+            const priceResponse = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=usd`);
+            const priceData = await priceResponse.json();
+            trendingCoins[i].price_usd = priceData[coinId]?.usd || "N/A";  // Se non disponibile, mostra "N/A"
+        }
+
+        // Genera i riquadri per ciascuna criptovaluta
+        trendingCoins.forEach(crypto => {
             const cryptoElement = document.createElement('div');
             cryptoElement.className = 'column is-one-sixth'; // Imposta ogni colonna a un sesto della larghezza
             cryptoElement.innerHTML = `
                 <div class="box" style="border-radius: 10px; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); padding: 15px;">
                     <img src="${crypto.small}" alt="${crypto.name}" style="width: 30px; margin-bottom: 8px;">
                     <h3 style="font-weight: 700; font-size: 0.9rem; margin-bottom: 4px;">${crypto.name}</h3>
-                    <p style="color: #6e6e73; font-size: 0.8rem;">Prezzo BTC: ${crypto.price_btc.toFixed(6)}</p>
+                    <p style="color: #6e6e73; font-size: 0.8rem;">Prezzo USD: $${crypto.price_usd}</p>
                     <a href="https://www.coingecko.com/en/coins/${crypto.id}" target="_blank" class="button is-small" style="background-color: #0071e3; color: #ffffff; border-radius: 8px; font-size: 0.7rem; margin-top: 5px;">
                         Dettagli
                     </a>
