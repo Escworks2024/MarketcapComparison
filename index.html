@@ -37,9 +37,15 @@
             margin: 0;
             font-size: 2rem;
         }
+        .language-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
         .language-switcher {
             display: flex;
-            align-items: center;
+            flex-direction: row;
+            margin-bottom: 10px;
         }
         .language-switcher button {
             background: none;
@@ -49,6 +55,21 @@
         }
         .language-switcher img {
             border-radius: 5px;
+        }
+        .button.dark-mode-button {
+            background-color: #555;
+            color: #ffffff;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .button.dark-mode-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         .container {
             max-width: 1200px; /* Aumenta la larghezza massima */
@@ -199,18 +220,20 @@
     <header>
         <div class="header-content">
             <h1 data-i18n="headerTitle">Crypto Market Cap Comparisons</h1>
-            <div class="language-switcher">
-                <button onclick="setLanguage('en')">
-                    <img src="https://i.imgur.com/B2Mfxk3.png" alt="English" width="30">
-                </button>
-                <button onclick="setLanguage('it')">
-                    <img src="https://i.imgur.com/2R8ciTX.png" alt="Italiano" width="30">
-                </button>
+            <div class="language-section">
+                <div class="language-switcher">
+                    <button onclick="setLanguage('en')">
+                        <img src="https://i.imgur.com/B2Mfxk3.png" alt="English" width="30">
+                    </button>
+                    <button onclick="setLanguage('it')">
+                        <img src="https://i.imgur.com/2R8ciTX.png" alt="Italiano" width="30">
+                    </button>
+                </div>
+                <button class="button dark-mode-button" onclick="toggleDarkMode()" data-i18n="toggleDarkMode">Toggle Dark Mode</button>
             </div>
         </div>
         <h2 class="title" data-i18n="trendingTitle" style="width: 100%; font-size: 1.5rem; margin-bottom: 20px;">Criptovalute in Tendenza</h2>
 
-        <button class="button" onclick="toggleDarkMode()" data-i18n="toggleDarkMode">Toggle Dark Mode</button>
         <!-- Sezione Criptovalute in Tendenza -->
         <div id="trendingContainer" class="columns is-multiline has-text-centered" style="margin-top: 20px;">
         </div>
@@ -564,7 +587,7 @@
                     data: {
                         labels: [`${crypto1.name}`, `${crypto2.name}`],
                         datasets: [{
-                            label: translations[currentLanguage]['compareMarketCap'],
+                            label: currentLanguage === 'it' ? 'Market Cap in USD' : 'Market Cap in USD',
                             data: [marketCap1, marketCap2],
                             backgroundColor: ['#0071e3', '#ff9800']
                         }]
