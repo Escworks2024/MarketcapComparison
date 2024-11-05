@@ -153,6 +153,10 @@
             </div>
 
             <div class="field">
+                <button class="button" onclick="swapCryptos()">Swap Criptovalute</button>
+            </div>
+
+            <div class="field">
                 <label class="label" for="crypto2">Seleziona la seconda criptovaluta:</label>
                 <div class="control">
                     <input class="input" type="text" id="searchCrypto2" placeholder="Cerca criptovaluta..." oninput="filterOptions('searchCrypto2', 'crypto2')">
@@ -272,6 +276,17 @@
             }
         }
 
+        function swapCryptos() {
+            const selectCrypto1 = document.getElementById('crypto1');
+            const selectCrypto2 = document.getElementById('crypto2');
+
+            const tempValue = selectCrypto1.value;
+            selectCrypto1.value = selectCrypto2.value;
+            selectCrypto2.value = tempValue;
+
+            compareMarketCap(); // Avvia automaticamente il confronto dopo lo swap
+        }
+
         // Funzione per confrontare le market cap delle criptovalute selezionate
         async function compareMarketCap() {
             const crypto1Id = document.getElementById('crypto1').value;
@@ -346,4 +361,3 @@
     </script>
 </body>
 </html>
-
