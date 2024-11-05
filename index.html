@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Stili Generali (Modalità Chiara) */
         body {
             background-color: #f5f5f7;
             font-family: 'Roboto', sans-serif;
@@ -21,7 +22,9 @@
         header {
             background-color: #000;
             padding: 20px;
-            text-align: center;
+            display: flex; /* Attiva Flexbox */
+            justify-content: space-between; /* Spazio tra gli elementi */
+            align-items: center; /* Allinea verticalmente al centro */
         }
         header h1 {
             color: #ffffff;
@@ -48,7 +51,6 @@
         }
         p.subtitle {
             color: #6e6e73;
-
             font-size: 1.2rem;
         }
         .button {
@@ -132,6 +134,7 @@
             padding: 10px;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            background: #ffffff;
         }
         #trendingContainer img {
             width: 30px;
@@ -143,9 +146,10 @@
         }
         #trendingContainer p {
             font-size: 0.8rem;
+            color: #6e6e73;
         }
 
-        /* Media Queries per la responsività */
+        /* Media Queries per la Responsività */
         @media (max-width: 1200px) {
             .is-one-sixth {
                 flex: 0 0 20%;
@@ -173,16 +177,59 @@
                 max-width: 100%;
             }
         }
+
+        /* Modalità Scura */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212;
+                color: #e0e0e0;
+            }
+            header {
+                background-color: #1f1f1f;
+            }
+            header h1 {
+                color: #e0e0e0;
+            }
+            .box {
+                background: #1f1f1f;
+                box-shadow: 0 8px 15px rgba(255, 255, 255, 0.1);
+            }
+            p.subtitle {
+                color: #b0b0b0;
+            }
+            #result {
+                background: #1f1f1f;
+                color: #e0e0e0;
+                box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+            }
+            footer {
+                background-color: #1f1f1f;
+                color: #e0e0e0;
+            }
+            #trendingContainer .box {
+                background: #2c2c2c;
+                box-shadow: 0 3px 6px rgba(255, 255, 255, 0.1);
+            }
+            #trendingContainer p {
+                color: #b0b0b0;
+            }
+            .button {
+                background-color: #005bb5;
+                color: #ffffff;
+            }
+            .button:hover {
+                background-color: #003f7f;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Crypto Market Cap Comparisons</h1>
-                    <h2 class="title" style="width: 100%; font-size: 1.5rem; margin-bottom: 20px;">Criptovalute in Tendenza</h2>
-
-        <button class="button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        <!-- Pulsante di Toggle Dark Mode Rimosso -->
         <!-- Sezione Criptovalute in Tendenza -->
         <div id="trendingContainer" class="columns is-multiline has-text-centered" style="margin-top: 20px;">
+            <h2 class="title" style="width: 100%; font-size: 1.5rem; margin-bottom: 20px;">Criptovalute in Tendenza</h2>
         </div>
     </header>
     <div class="container">
@@ -414,11 +461,6 @@
             }
         }
 
-        // Funzione per attivare/disattivare la modalità scura
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
-
         // Funzione aggiornata per caricare le criptovalute di tendenza con prezzi dinamici
         async function loadTrendingCryptos() {
             const trendingContainer = document.getElementById('trendingContainer');
@@ -429,7 +471,7 @@
                 {
                     id: 'the-balkan-dwarf', // Assicurati che questo sia l'ID corretto su CoinGecko
                     name: 'The Balkan Dwarf',
-                    small: 'https://assets.coingecko.com/coins/images/32563/standard/download-compresskaru.com.png?1698546378' // Sostituisci con l'URL corretto dell'immagine
+                    small: 'https://assets.coingecko.com/coins/images/25123/small/the_balkan_dwarf_logo.png' // Sostituisci con l'URL corretto dell'immagine
                 }
             ];
 
@@ -459,10 +501,10 @@
                     const cryptoElement = document.createElement('div');
                     cryptoElement.className = 'column is-one-sixth'; // Utilizza la classe personalizzata
                     cryptoElement.innerHTML = `
-                        <div class="box" style="border-radius: 10px; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); padding: 15px;">
+                        <div class="box">
                             <img src="${crypto.small}" alt="${crypto.name}" style="width: 30px; margin-bottom: 8px;">
                             <h3 style="font-weight: 700; font-size: 0.9rem; margin-bottom: 4px;">${crypto.name}</h3>
-                            <p style="color: #6e6e73; font-size: 0.8rem;">Prezzo USD: $${crypto.price_usd}</p>
+                            <p style="font-size: 0.8rem;">Prezzo USD: $${crypto.price_usd}</p>
                             <a href="https://www.coingecko.com/en/coins/${crypto.id}" target="_blank" class="button is-small" style="background-color: #0071e3; color: #ffffff; border-radius: 8px; font-size: 0.7rem; margin-top: 5px;">
                                 Dettagli
                             </a>
