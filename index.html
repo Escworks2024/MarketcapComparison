@@ -30,7 +30,7 @@
             font-size: 2rem;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1200px; /* Aumenta la larghezza massima */
             margin: 0 auto;
             padding: 60px 20px;
             text-align: center;
@@ -48,6 +48,7 @@
         }
         p.subtitle {
             color: #6e6e73;
+
             font-size: 1.2rem;
         }
         .button {
@@ -121,16 +122,67 @@
             font-size: 1.2rem;
             color: #0071e3;
         }
+        /* Classe personalizzata per una colonna che occupa un sesto della larghezza */
+        .is-one-sixth {
+            flex: 0 0 16.666667%;
+            max-width: 16.666667%;
+        }
+        /* Stili per la sezione delle criptovalute in tendenza */
+        #trendingContainer .box {
+            padding: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        #trendingContainer img {
+            width: 30px;
+            height: 30px;
+        }
+        #trendingContainer h3 {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        #trendingContainer p {
+            font-size: 0.8rem;
+        }
+
+        /* Media Queries per la responsività */
+        @media (max-width: 1200px) {
+            .is-one-sixth {
+                flex: 0 0 20%;
+                max-width: 20%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .is-one-sixth {
+                flex: 0 0 33.3333%;
+                max-width: 33.3333%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .is-one-sixth {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .is-one-sixth {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Crypto Market Cap Comparisons</h1>
         <button class="button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        <!-- Sezione Criptovalute in Tendenza -->
         <div id="trendingContainer" class="columns is-multiline has-text-centered" style="margin-top: 20px;">
-    <h2 class="title" style="width: 100%; font-size: 1.5rem; margin-bottom: 20px;">Criptovalute in Tendenza</h2>
-</div>
-
+            <h2 class="title" style="width: 100%; font-size: 1.5rem; margin-bottom: 20px;">Criptovalute in Tendenza</h2>
+        </div>
     </header>
     <div class="container">
         <div class="box">
@@ -189,7 +241,13 @@
         <p>DONATE SOL</p>
         <img src="https://i.imgur.com/960npj0.png" alt="Donate SOL">
         <p>Loading view count...</p>
-        <div id="sfce8dq74g4218m6qnzp2y5ef2k2ypzm9rl"></div><script type="text/javascript" src="https://counter6.optistats.ovh/private/counter.js?c=e8dq74g4218m6qnzp2y5ef2k2ypzm9rl&down=async" async></script><noscript><a href="https://www.freecounterstat.com" title="website hits counter"><img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=e8dq74g4218m6qnzp2y5ef2k2ypzm9rl" border="0" title="website hits counter" alt="website hits counter"></a></noscript>
+        <div id="sfce8dq74g4218m6qnzp2y5ef2k2ypzm9rl"></div>
+        <script type="text/javascript" src="https://counter6.optistats.ovh/private/counter.js?c=e8dq74g4218m6qnzp2y5ef2k2ypzm9rl&down=async" async></script>
+        <noscript>
+            <a href="https://www.freecounterstat.com" title="website hits counter">
+                <img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=e8dq74g4218m6qnzp2y5ef2k2ypzm9rl" border="0" title="website hits counter" alt="website hits counter">
+            </a>
+        </noscript>
     </footer>
 
     <script>
@@ -360,9 +418,8 @@
             document.body.classList.toggle('dark-mode');
         }
 
-        // Carica le criptovalute al caricamento della pagina
-        loadCryptos();
-     async function loadTrendingCryptos() {
+        // Funzione aggiornata per caricare le criptovalute di tendenza con prezzi dinamici
+        async function loadTrendingCryptos() {
             const trendingContainer = document.getElementById('trendingContainer');
             trendingContainer.innerHTML = '<p>Caricamento delle criptovalute di tendenza...</p>';
 
@@ -399,8 +456,7 @@
                 trendingContainer.innerHTML = ''; // Svuota il contenuto
                 allTrendingCoins.forEach(crypto => {
                     const cryptoElement = document.createElement('div');
-                    cryptoElement.className = 'column is-one-fifth'; // Utilizza is-one-fifth per 6 criptovalute in una riga
-                    cryptoElement.style.padding = '10px'; // Aggiungi padding per ridurre lo spazio
+                    cryptoElement.className = 'column is-one-sixth'; // Utilizza la classe personalizzata
                     cryptoElement.innerHTML = `
                         <div class="box" style="border-radius: 10px; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); padding: 15px;">
                             <img src="${crypto.small}" alt="${crypto.name}" style="width: 30px; margin-bottom: 8px;">
@@ -421,8 +477,11 @@
 
         // Carica le criptovalute di tendenza al caricamento della pagina
         loadTrendingCryptos();
-       
-   // Aggiorna i prezzi ogni 5 minuti (300000 ms)
+
+        // Carica le criptovalute al caricamento della pagina
+        loadCryptos();
+
+        // Aggiorna i prezzi ogni 5 minuti (300000 ms)
         setInterval(loadTrendingCryptos, 300000);
     </script>
 </body>
